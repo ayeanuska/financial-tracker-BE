@@ -1,24 +1,39 @@
 @rooturl=http://localhost:9001/api/v1
 
 ##
-@userEP ={{rooturl}}/users
+@userEP={{rooturl}}/users
+
+@transactionEP={{rooturl}}/transactions
 
 ###
 POST {{userEP}}/register
 Content-Type: application/json
 
 {
-    "username":"jennnie",
-    "email":"gegeg@gmail.com",
+    "username":"kiara",
+    "email":"tokenchec@gmail.com",
     "password": "123"
 }
-
-
 
 ###
 POST {{userEP}}/login
 Content-Type: application/json
 
 {
- "email":"gegeg@gmail.com",
-    "password": "123"}
+    "email":"tokenchec@gmail.com",
+    "password": "123"
+}
+
+
+### 
+#creating transaction
+
+POST {{transactionEP}}
+Content-Type: application/json
+
+{
+    "type": "income",
+    "amount":100,
+    "date": "10-10-2024",
+    "description": "STOCKS"
+}
