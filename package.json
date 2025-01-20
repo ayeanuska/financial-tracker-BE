@@ -1,28 +1,21 @@
 {
-  "name": "financial-tracker-be",
-  "private": true,
-  "version": "0.0.0",
+  "name": "financial-be",
+  "version": "1.0.0",
+  "description": "This repository contains the backend code for the Finance Tracker App, a web application designed to help users manage their finances by tracking income, expenses, and overall balance. The backend is built using Node.js and Express.js and connects to a MongoDB database hosted on MongoDB Atlas.",
+  "main": "app.js",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon --env-file=.env app.js",
+    "start": "node server.js"
   },
+  "author": "",
+  "license": "ISC",
   "dependencies": {
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
-  },
-  "devDependencies": {
-    "@eslint/js": "^9.17.0",
-    "@types/react": "^18.3.18",
-    "@types/react-dom": "^18.3.5",
-    "@vitejs/plugin-react": "^4.3.4",
-    "eslint": "^9.17.0",
-    "eslint-plugin-react": "^7.37.2",
-    "eslint-plugin-react-hooks": "^5.0.0",
-    "eslint-plugin-react-refresh": "^0.4.16",
-    "globals": "^15.14.0",
-    "vite": "^6.0.5"
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongoose": "^8.9.5"
   }
 }
