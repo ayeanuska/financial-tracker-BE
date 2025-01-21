@@ -7,6 +7,12 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 
 import jwt from "jsonwebtoken";
+import { createUser, getUserByEmail } from "./models/user/UserModel.js";
+import {
+  createTransaction,
+  deleteTransaction,
+  getTransaction,
+} from "./models/transaction/transactionModel.js";
 
 //connect to mongoosedb
 connectMongoDB();
@@ -23,64 +29,8 @@ app.get("/", (req, res) => {
     message: "its live",
   });
 });
-const userSchema = mongoose.Schema(
-  {
-    username: {
-      type: String,
-      required: true,
-    },
 
-    email: {
-      type: String,
-      unique: true,
-      required: true,
-    },
-
-    password: {
-      type: String,
-      required: true,
-    },
-  },
-  { timestamps: true }
-
-  // createdAt:{
-  //     type:Date,
-  //     default:now(),
-  // }
-);
-
-const User = mongoose.model("user", userSchema);
-
-const transactionSchema = mongoose.Schema(
-  {
-    userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
-    type: {
-      type: String,
-      enum: ["Income", "Expense"],
-      required: true,
-    },
-    amount: {
-      type: Number,
-      required: true,
-    },
-    date: {
-      type: Date,
-      required: true,
-    },
-    description: {
-      type: String,
-      default: "",
-    },
-  },
-  {
-    timestamps: true,
-  }
-);
-const Transaction = mongoose.model("Transaction", transactionSchema);
+//data base models
 
 app.post("/api/v1/users/register", async (req, res) => {
   try {
@@ -92,12 +42,11 @@ app.post("/api/v1/users/register", async (req, res) => {
     const saltRound = 10;
     password = await bcrypt.hash(password, saltRound);
 
-    const newUser = new User({
+    const data = await createUser({
       username,
       email,
       password,
     });
-    const data = await newUser.save();
 
     res.status(201).json({
       status: "success",
@@ -125,7 +74,7 @@ app.post("/api/v1/users/login", async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const userData = await User.findOne({ email });
+    const userData = await getUserByEmail(email);
 
     if (userData) {
       const loginSuccess = await bcrypt.compare(password, userData.password);
@@ -179,12 +128,22 @@ app.post("/api/v1/transactions", async (req, res) => {
 
     if (decodedData?.email) {
       //3. find the user from decoded data
-      const userData = await User.findOne({ email: decodedData.email });
+      const userData = await getUserByEmail(decodedData.email);
 
       if (userData) {
         //4. create transction
         const { type, description, amount, date } = req.body;
-        const newTransaction = new Transaction({
+        // const newTransaction = new Transaction({
+        //   userId: userData._id,
+        //   type,
+        //   description,
+        //   amount,
+        //   date,
+        // });
+
+        // const newData = await newTransaction.save();
+        console.log(userData);
+        const newData = await createTransaction({
           userId: userData._id,
           type,
           description,
@@ -192,7 +151,6 @@ app.post("/api/v1/transactions", async (req, res) => {
           date,
         });
 
-        const newData = await newTransaction.save();
         res.status(201).json({
           status: "success",
           message: "transaction created",
@@ -233,11 +191,11 @@ app.get("/api/v1/transactions", async (req, res) => {
 
     if (decodedData?.email) {
       //3. find the user from decoded data
-      const userData = await User.findOne({ email: decodedData.email });
+      const userData = await getUserByEmail(decodedData.email);
 
       if (userData) {
         //4. get transction
-        const transactionData = await Transaction.find({
+        const transactionData = await getTransaction({
           userId: userData._id,
         });
 
@@ -246,6 +204,125 @@ app.get("/api/v1/transactions", async (req, res) => {
           message: "transaction created",
           transaction: transactionData,
         });
+      } else {
+        res.send(401).json({
+          status: "error",
+          message: "user not found",
+        });
+      }
+    } else {
+      res.send(401).json({
+        status: "error",
+        message: "Invalid Token",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      status: "error",
+      message: error.message,
+    });
+  }
+});
+
+//delete api
+app.delete("/api/v1/transactions/:tid", async (req, res) => {
+  try {
+    console.log(101, req.headers);
+    //1.get the token
+    const token = req.headers.authorization;
+
+    //2. verify the token
+    const decodedData = await jwt.verify(token, process.env.JWT_SECRET);
+    console.log("DECODED DATA", decodedData);
+
+    if (decodedData?.email) {
+      //3. find the user from decoded data
+      const userData = await getUserByEmail(decodedData.email);
+
+      if (userData) {
+        //4. find the transaction with user id and teansaction id from the parameter
+
+        const transactionId = req.params.tid;
+        // const transactionData = await Transaction.findOneAndDelete({
+        //   _id: transactionId,
+        //   userId: userData._id,
+        // });
+
+        const transactionData = await deleteTransaction({
+          _id: transactionId,
+          userId: userData._id,
+        });
+
+        if (transactionData) {
+          res.status(201).json({
+            status: "success",
+            message: "transaction deleted",
+          });
+        } else {
+          res.status(401).json({
+            status: "error",
+            message: " error while deleting",
+          });
+        }
+      } else {
+        res.send(401).json({
+          status: "error",
+          message: "user not found",
+        });
+      }
+    } else {
+      res.send(401).json({
+        status: "error",
+        message: "Invalid Token",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      status: "error",
+      message: error.message,
+    });
+  }
+});
+
+//del many
+
+app.delete("/api/v1/transactions", async (req, res) => {
+  try {
+    console.log(101, req.headers);
+    //1.get the token
+    const token = req.headers.authorization;
+
+    //2. verify the token
+    const decodedData = await jwt.verify(token, process.env.JWT_SECRET);
+    console.log("DECODED DATA", decodedData);
+
+    if (decodedData?.email) {
+      //3. find the user from decoded data
+      const userData = await getUserByEmail(decodedData.email);
+      if (userData) {
+        //4. find the transaction with user id and teansaction id from the parameter
+
+        const transactions = req.body.transactions;
+        const transactionData = await deleteTransaction({
+          _id: { $in: transactions },
+          userId: userData._id,
+        });
+
+        console.log(9000, transactionData);
+        if (transactionData) {
+          res.status(201).json({
+            status: "success",
+            message: "transaction deleted",
+            transactionData,
+          });
+        } else {
+          res.status(401).json({
+            status: "error",
+            message: " error deleting transaction data",
+          });
+        }
       } else {
         res.send(401).json({
           status: "error",

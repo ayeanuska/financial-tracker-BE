@@ -11,7 +11,7 @@ Content-Type: application/json
 
 {
     "username":"kiara",
-    "email":"tokenchec@gmail.com",
+    "email":"test@gmail.com",
     "password": "123"
 }
 
@@ -20,7 +20,7 @@ POST {{userEP}}/login
 Content-Type: application/json
 
 {
-    "email":"tokenchec@gmail.com",
+    "email":"test@gmail.com",
     "password": "123"
 }
 
@@ -29,7 +29,7 @@ Content-Type: application/json
 #creating transaction
 POST {{transactionEP}}
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRva2VuY2hlY0BnbWFpbC5jb20iLCJpYXQiOjE3Mzc0MTg5MDQsImV4cCI6MTczNzUwNTMwNH0.3ChoGoV0T3aY33Cr3_ltYg05lmtqf_3p6Hi228F4bts
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNzM3NDMyNTUwLCJleHAiOjE3Mzc1MTg5NTB9.YqPmPnI3cBUimhiFKoJWXlJ2DboUz-stLJVrJ4q5t9w
 
 {
     "type": "Income",
@@ -41,5 +41,23 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRva2VuY2hlY0Bn
 ###
 #get transaction
 GET {{transactionEP}}
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRva2VuY2hlY0BnbWFpbC5jb20iLCJpYXQiOjE3Mzc0MTg5MDQsImV4cCI6MTczNzUwNTMwNH0.3ChoGoV0T3aY33Cr3_ltYg05lmtqf_3p6Hi228F4bts
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNzM3NDMyNTUwLCJleHAiOjE3Mzc1MTg5NTB9.YqPmPnI3cBUimhiFKoJWXlJ2DboUz-stLJVrJ4q5t9w
+
+
+
+###delete transcation 
+DELETE {{transactionEP}}/678f2071ed80a9f37f56c756
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNzM3NDMyNTUwLCJleHAiOjE3Mzc1MTg5NTB9.YqPmPnI3cBUimhiFKoJWXlJ2DboUz-stLJVrJ4q5t9w
+
+### delete many 
+DELETE {{transactionEP}}
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNzM3NDMyNTUwLCJleHAiOjE3Mzc1MTg5NTB9.YqPmPnI3cBUimhiFKoJWXlJ2DboUz-stLJVrJ4q5t9w
+
+{
+    "transactions" : [
+        "678f211cc23ba2398f7f440f","678f211cc23ba2398f7f4409","678f211cc23ba2398f7f440c"
+
+    ]
+}
 
