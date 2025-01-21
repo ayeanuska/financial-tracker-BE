@@ -51,7 +51,7 @@ const userSchema = mongoose.Schema(
 
 const User = mongoose.model("user", userSchema);
 
-const trasactionSchema = mongoose.Schema(
+const transactionSchema = mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -80,7 +80,7 @@ const trasactionSchema = mongoose.Schema(
     timestamps: true,
   }
 );
-const Tranaction = mongoose.model("Transaction", trasactionSchema);
+const Transaction = mongoose.model("Transaction", transactionSchema);
 
 app.post("/api/v1/users/register", async (req, res) => {
   try {
@@ -165,13 +165,106 @@ app.post("/api/v1/users/login", async (req, res) => {
   }
 });
 
-//create transaction
-
+// create transaction
 app.post("/api/v1/transactions", async (req, res) => {
-  res.status(201).json({
-    status: "success",
-    message: "transaction created",
-  });
+  //try catch
+  try {
+    console.log(101, req.headers);
+    //1.get the token
+    const token = req.headers.authorization;
+
+    //2. verify the token
+    const decodedData = await jwt.verify(token, process.env.JWT_SECRET);
+    console.log("DECODED DATA", decodedData);
+
+    if (decodedData?.email) {
+      //3. find the user from decoded data
+      const userData = await User.findOne({ email: decodedData.email });
+
+      if (userData) {
+        //4. create transction
+        const { type, description, amount, date } = req.body;
+        const newTransaction = new Transaction({
+          userId: userData._id,
+          type,
+          description,
+          amount,
+          date,
+        });
+
+        const newData = await newTransaction.save();
+        res.status(201).json({
+          status: "success",
+          message: "transaction created",
+          transaction: newData,
+        });
+      } else {
+        res.send(401).json({
+          status: "error",
+          message: "user not found",
+        });
+      }
+    } else {
+      res.send(401).json({
+        status: "error",
+        message: "Invalid Token",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      status: "error",
+      message: error.message,
+    });
+  }
+});
+
+// gettransaction
+app.get("/api/v1/transactions", async (req, res) => {
+  //try catch
+  try {
+    console.log(101, req.headers);
+    //1.get the token
+    const token = req.headers.authorization;
+
+    //2. verify the token
+    const decodedData = await jwt.verify(token, process.env.JWT_SECRET);
+    console.log("DECODED DATA", decodedData);
+
+    if (decodedData?.email) {
+      //3. find the user from decoded data
+      const userData = await User.findOne({ email: decodedData.email });
+
+      if (userData) {
+        //4. get transction
+        const transactionData = await Transaction.find({
+          userId: userData._id,
+        });
+
+        res.status(201).json({
+          status: "success",
+          message: "transaction created",
+          transaction: transactionData,
+        });
+      } else {
+        res.send(401).json({
+          status: "error",
+          message: "user not found",
+        });
+      }
+    } else {
+      res.send(401).json({
+        status: "error",
+        message: "Invalid Token",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      status: "error",
+      message: error.message,
+    });
+  }
 });
 
 app.listen(PORT, (error) => {

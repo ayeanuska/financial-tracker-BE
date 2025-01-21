@@ -27,13 +27,19 @@ Content-Type: application/json
 
 ### 
 #creating transaction
-
 POST {{transactionEP}}
 Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRva2VuY2hlY0BnbWFpbC5jb20iLCJpYXQiOjE3Mzc0MTg5MDQsImV4cCI6MTczNzUwNTMwNH0.3ChoGoV0T3aY33Cr3_ltYg05lmtqf_3p6Hi228F4bts
 
 {
-    "type": "income",
+    "type": "Income",
     "amount":100,
     "date": "10-10-2024",
     "description": "STOCKS"
 }
+
+###
+#get transaction
+GET {{transactionEP}}
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRva2VuY2hlY0BnbWFpbC5jb20iLCJpYXQiOjE3Mzc0MTg5MDQsImV4cCI6MTczNzUwNTMwNH0.3ChoGoV0T3aY33Cr3_ltYg05lmtqf_3p6Hi228F4bts
+
