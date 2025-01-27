@@ -29,7 +29,7 @@ Content-Type: application/json
 #creating transaction
 POST {{transactionEP}}
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNzM3NDMyNTUwLCJleHAiOjE3Mzc1MTg5NTB9.YqPmPnI3cBUimhiFKoJWXlJ2DboUz-stLJVrJ4q5t9w
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNzM4MDIxNDU1LCJleHAiOjE3MzgxMDc4NTV9.pReUTWeE64eghF1KONMspVG5nIAWIZ91GS1naE41HoQ
 
 {
     "type": "Income",
@@ -41,22 +41,21 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwu
 ###
 #get transaction
 GET {{transactionEP}}
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNzM3NDMyNTUwLCJleHAiOjE3Mzc1MTg5NTB9.YqPmPnI3cBUimhiFKoJWXlJ2DboUz-stLJVrJ4q5t9w
-
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNzM4MDIxNDU1LCJleHAiOjE3MzgxMDc4NTV9.pReUTWeE64eghF1KONMspVG5nIAWIZ91GS1naE41HoQ
 
 
 ###delete transcation 
 DELETE {{transactionEP}}/678f2071ed80a9f37f56c756
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNzM3NDMyNTUwLCJleHAiOjE3Mzc1MTg5NTB9.YqPmPnI3cBUimhiFKoJWXlJ2DboUz-stLJVrJ4q5t9w
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNzM4MDIxNDU1LCJleHAiOjE3MzgxMDc4NTV9.pReUTWeE64eghF1KONMspVG5nIAWIZ91GS1naE41HoQ
 
 ### delete many 
 DELETE {{transactionEP}}
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNzM3NDMyNTUwLCJleHAiOjE3Mzc1MTg5NTB9.YqPmPnI3cBUimhiFKoJWXlJ2DboUz-stLJVrJ4q5t9w
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNzM4MDIxNDU1LCJleHAiOjE3MzgxMDc4NTV9.pReUTWeE64eghF1KONMspVG5nIAWIZ91GS1naE41HoQ
 
 {
     "transactions" : [
-        "678f211cc23ba2398f7f440f","678f211cc23ba2398f7f4409","678f211cc23ba2398f7f440c"
+        "678f211cc23ba2398f7f4412","678f211cc23ba2398f7f4409","678f211cc23ba2398f7f440c"
 
     ]
 }
