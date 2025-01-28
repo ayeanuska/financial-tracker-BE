@@ -3,15 +3,19 @@ import cors from "cors";
 import { authenticate } from "./middlewares/authenticate.js";
 
 import { connectMongoDB } from "./config/mongoconfig.js";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+// import bcrypt from "bcrypt";
+// import jwt from "jsonwebtoken";
 
-import { createUser, getUserByEmail } from "./models/user/UserModel.js";
+// import { createUser, getUserByEmail } from "./models/user/UserModel.js";
 import {
   createTransaction,
   deleteTransaction,
   getTransaction,
 } from "./models/transaction/transactionModel.js";
+
+import userRouter from "./routes/userRoutes.js";
+
+import transRouter from "./routes/transactionRoutes.js";
 
 //connect to mongoosedb
 connectMongoDB();
@@ -31,228 +35,8 @@ app.get("/", (req, res) => {
 
 //data base models
 
-app.post("/api/v1/users/register", async (req, res) => {
-  try {
-    //   const newUser = new User(req.body);
-
-    const { username, email } = req.body;
-    let { password } = req.body;
-
-    const saltRound = 10;
-    password = await bcrypt.hash(password, saltRound);
-
-    const data = await createUser({
-      username,
-      email,
-      password,
-    });
-
-    res.status(201).json({
-      status: "success",
-      message: "user created",
-      data,
-    });
-  } catch (error) {
-    console.log(error.message);
-
-    if (error?.message.includes("E11000")) {
-      res.status(400).json({
-        status: "error",
-        message: "Duplicate userr",
-      });
-    } else {
-      res.status(500).json({
-        status: "error",
-        message: "Erorr creating user",
-      });
-    }
-  }
-});
-
-app.post("/api/v1/users/login", async (req, res) => {
-  try {
-    const { email, password } = req.body;
-
-    const userData = await getUserByEmail(email);
-
-    if (userData) {
-      const loginSuccess = await bcrypt.compare(password, userData.password);
-
-      const tokenData = {
-        email: userData.email,
-      };
-
-      const token = await jwt.sign(tokenData, process.env.JWT_SECRET, {
-        expiresIn: "1d",
-      });
-
-      if (loginSuccess) {
-        res.status(200).json({
-          status: "success",
-          message: " Login succesfull",
-          accessToken: token,
-        });
-      } else {
-        res.status(403).json({
-          status: "error",
-          message: "credidentials not found",
-        });
-      }
-    } else {
-      res.status(404).json({
-        status: "error",
-        message: "User not found",
-      });
-    }
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      status: "error",
-      message: "login error",
-    });
-  }
-});
-
-// create transaction
-app.post("/api/v1/transactions", authenticate, async (req, res) => {
-  //try catch
-  try {
-    // if (userData) {
-    //4. create transction
-    const { type, description, amount, date } = req.body;
-    // const newTransaction = new Transaction({
-    //   userId: userData._id,
-    //   type,
-    //   description,
-    //   amount,
-    //   date,
-    // });
-
-    // const newData = await newTransaction.save();
-    // console.log(userData);
-    const newData = await createTransaction({
-      userId: req.userData._id,
-      type,
-      description,
-      amount,
-      date,
-    });
-
-    res.status(201).json({
-      status: "success",
-      message: "transaction created",
-      transaction: newData,
-    });
-    // } else {
-    //   res.send(401).json({
-    //     status: "error",
-    //     message: "user not found",
-    //   });
-    // }
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      status: "error",
-      message: error.message,
-    });
-  }
-});
-
-// gettransaction
-app.get("/api/v1/transactions", authenticate, async (req, res) => {
-  //try catch
-  try {
-    // if (userData) {
-    //   //4. get transction
-    const transactionData = await getTransaction({
-      userId: req.userData._id,
-    });
-
-    res.status(201).json({
-      status: "success",
-      message: "transaction created",
-      transaction: transactionData,
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      status: "error",
-      message: error.message,
-    });
-  }
-});
-
-//delete api
-app.delete("/api/v1/transactions/:tid", authenticate, async (req, res) => {
-  try {
-    // if (userData) {
-    //4. find the transaction with user id and teansaction id from the parameter
-
-    const transactionId = req.params.tid;
-    // const transactionData = await Transaction.findOneAndDelete({
-    //   _id: transactionId,
-    //   userId: userData._id,
-    // });
-
-    const transactionData = await deleteTransaction({
-      _id: transactionId,
-      userId: req.userData._id,
-    });
-
-    if (transactionData) {
-      res.status(201).json({
-        status: "success",
-        message: transactionData,
-      });
-    } else {
-      res.status(401).json({
-        status: "error",
-        message: " error while deleting",
-      });
-    }
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      status: "error",
-      message: error.message,
-    });
-  }
-});
-
-//del many
-
-app.delete("/api/v1/transactions", authenticate, async (req, res) => {
-  try {
-    // if (userData) {
-    //4. find the transaction with user id and teansaction id from the parameter
-
-    const transactions = req.body.transactions;
-    const transactionData = await deleteTransaction({
-      _id: { $in: transactions },
-      userId: req.userData._id,
-    });
-
-    console.log(9000, transactionData);
-    if (transactionData) {
-      res.status(201).json({
-        status: "success",
-        message: "transaction deleted",
-        transactionData,
-      });
-    } else {
-      res.status(401).json({
-        status: "error",
-        message: " error deleting transaction data",
-      });
-    }
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      status: "error",
-      message: error.message,
-    });
-  }
-});
+app.use("/api/v1/users", userRouter);
+app.use("/api/v1/transactions", transRouter);
 
 app.listen(PORT, (error) => {
   error

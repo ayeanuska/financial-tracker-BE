@@ -45,7 +45,7 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwu
 
 
 ###delete transcation 
-DELETE {{transactionEP}}/678f2071ed80a9f37f56c756
+DELETE {{transactionEP}}/67981798286ef199b6257ee3
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNzM4MDIxNDU1LCJleHAiOjE3MzgxMDc4NTV9.pReUTWeE64eghF1KONMspVG5nIAWIZ91GS1naE41HoQ
 
 ### delete many 
@@ -55,7 +55,7 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwu
 
 {
     "transactions" : [
-        "678f211cc23ba2398f7f4412","678f211cc23ba2398f7f4409","678f211cc23ba2398f7f440c"
+        "678f1db8ed621568fa549219","6798179c286ef199b6257ef2",
 
     ]
 }
