@@ -34,8 +34,9 @@ app.get("/", (req, res) => {
 });
 
 //data base models
-
+//user router
 app.use("/api/v1/users", userRouter);
+//transaction router
 app.use("/api/v1/transactions", transRouter);
 
 app.listen(PORT, (error) => {

@@ -4,6 +4,7 @@ import { createUser, getUserByEmail } from "../models/user/UserModel.js";
 
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { compareText, encryptText } from "../utils/bcrypt.js";
 
 const router = express.Router();
 
@@ -15,7 +16,7 @@ router.post("/register", async (req, res) => {
     let { password } = req.body;
 
     const saltRound = 10;
-    password = await bcrypt.hash(password, saltRound);
+    password = await encryptText(password);
 
     const data = await createUser({
       username,
@@ -52,7 +53,7 @@ router.post("/login", async (req, res) => {
     const userData = await getUserByEmail(email);
 
     if (userData) {
-      const loginSuccess = await bcrypt.compare(password, userData.password);
+      const loginSuccess = await compareText(password, userData.password);
 
       const tokenData = {
         email: userData.email,

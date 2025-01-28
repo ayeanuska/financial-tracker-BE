@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import { getUserByEmail } from "../models/user/UserModel.js";
+import { jwtVerify } from "../utils/jwt.js";
 
 export const authenticate = async (req, res, next) => {
   try {
@@ -8,7 +9,7 @@ export const authenticate = async (req, res, next) => {
     const token = req.headers.authorization;
 
     //2. verify the token
-    const decodedData = await jwt.verify(token, process.env.JWT_SECRET);
+    const decodedData = await jwtVerify(token);
     console.log("DECODED DATA", decodedData);
 
     if (decodedData?.email) {
