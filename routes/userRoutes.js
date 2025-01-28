@@ -83,6 +83,7 @@ router.post("/login", async (req, res, next) => {
       });
     }
   } catch (error) {
+    console.log(error);
     next({
       statusCode: 500,
       message: "login error",

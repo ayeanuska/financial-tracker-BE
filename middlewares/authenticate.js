@@ -1,4 +1,3 @@
-import jwt from "jsonwebtoken";
 import { getUserByEmail } from "../models/user/UserModel.js";
 import { jwtVerify } from "../utils/jwt.js";
 
@@ -9,10 +8,12 @@ export const authenticate = async (req, res, next) => {
     const token = req.headers.authorization;
 
     //2. verify the token
+    console.log(token);
     const decodedData = await jwtVerify(token);
     console.log("DECODED DATA", decodedData);
 
     if (decodedData?.email) {
+      console.log(decodedData);
       //3. find the user from decoded data
       const userData = await getUserByEmail(decodedData.email);
 
@@ -35,11 +36,11 @@ export const authenticate = async (req, res, next) => {
       });
     }
   } catch (error) {
+    console.log(error);
+
     next({
       statusCode: 500,
-      message: "error",
+      message: error.message,
     });
-
-    next(errObj);
   }
 };

@@ -21,7 +21,7 @@ Content-Type: application/json
 
 {
     "email":"test@gmail.com",
-    "password": "12773"
+    "password": "123"
 }
 
 
@@ -29,10 +29,10 @@ Content-Type: application/json
 #creating transaction
 POST {{transactionEP}}
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNzM4MDIxNDU1LCJleHAiOjE3MzgxMDc4NTV9.pReUTWeE64eghF1KONMspVG5nIAWIZ91GS1naE41HoQ
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNzM4MDM4MzI2LCJleHAiOjE3MzgxMjQ3MjZ9.lXMuYOtfKStUE-aVupDvLZ8bV4DpSvMTHUmV-X0iM80
 
 {
-    "type": "Income",
+    "type": "eee",
     "amount":100,
     "date": "10-10-2024",
     "description": "STOCKS"
@@ -41,7 +41,7 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwu
 ###
 #get transaction
 GET {{transactionEP}}
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNzM4MDIxNDU1LCJleHAiOjE3MzgxMDc4NTV9.pReUTWeE64eghF1KONMspVG5nIAWIZ91GS1naE41HoQ
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6eeeIkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNzM4MDM5MTk3LCJleHAiOjE3MzgxMjU1OTd9.OWRINHNOfddSUXQ_DZoyukqx3-BaCDTJBVXM7rpyMFUQ
 
 
 ###delete transcation 

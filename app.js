@@ -1,26 +1,27 @@
 import express from "express";
 import cors from "cors";
-import { authenticate } from "./middlewares/authenticate.js";
-
 import { connectMongoDB } from "./config/mongoconfig.js";
+
 // import bcrypt from "bcrypt";
 // import jwt from "jsonwebtoken";
 
 // import { createUser, getUserByEmail } from "./models/user/UserModel.js";
-import {
-  createTransaction,
-  deleteTransaction,
-  getTransaction,
-} from "./models/transaction/transactionModel.js";
+// import {
+//   createTransaction,
+//   deleteTransaction,
+//   getTransaction,
+// } from "./models/transaction/transactionModel.js";
+
+// import { authenticate } from "./middlewares/authenticate.js";
 
 import userRouter from "./routes/userRoutes.js";
-
 import transRouter from "./routes/transactionRoutes.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 
 //connect to mongoosedb
 connectMongoDB();
 
+//for req.body
 const app = express();
 const PORT = process.env.PORT || 9000;
 

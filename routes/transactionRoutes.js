@@ -11,7 +11,7 @@ import { authenticate } from "../middlewares/authenticate.js";
 const router = express.Router();
 
 // create transaction
-router.post("/", authenticate, async (req, res) => {
+router.post("/", authenticate, async (req, res, next) => {
   //try catch
   try {
     // if (userData) {
@@ -35,7 +35,7 @@ router.post("/", authenticate, async (req, res) => {
       date,
     });
 
-    res.status(201).json({
+    return res.status(201).json({
       status: "success",
       message: "transaction created",
       transaction: newData,
@@ -47,40 +47,43 @@ router.post("/", authenticate, async (req, res) => {
     //   });
     // }
   } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      status: "error",
-      message: error.message,
+    next({
+      statusCode: 500,
+      message: "Cannot create transactions",
     });
+    // res.status(500).json({
+    //   status: "error",
+    //   message: error.message,
+    // });
   }
 });
 
 // gettransaction
-router.get("/", authenticate, async (req, res) => {
+router.get("/", authenticate, async (req, res, next) => {
   //try catch
   try {
     // if (userData) {
     //   //4. get transction
+    console.log(1111, req.userData);
     const transactionData = await getTransaction({
       userId: req.userData._id,
     });
 
-    res.status(201).json({
+    return res.status(201).json({
       status: "success",
       message: "transaction created",
       transaction: transactionData,
     });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      status: "error",
+    next({
+      statusCode: 500,
       message: error.message,
     });
   }
 });
 
 //delete api
-router.delete("/:tid", authenticate, async (req, res) => {
+router.delete("/:tid", authenticate, async (req, res, next) => {
   try {
     // if (userData) {
     //4. find the transaction with user id and teansaction id from the parameter
@@ -97,20 +100,19 @@ router.delete("/:tid", authenticate, async (req, res) => {
     });
 
     if (transactionData) {
-      res.status(201).json({
+      return res.status(201).json({
         status: "success",
         message: transactionData,
       });
     } else {
-      res.status(401).json({
-        status: "error",
-        message: " error while deleting",
+      next({
+        statusCode: 401,
+        message: "error while deleting",
       });
     }
   } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      status: "error",
+    next({
+      statusCode: 500,
       message: error.message,
     });
   }
@@ -118,7 +120,7 @@ router.delete("/:tid", authenticate, async (req, res) => {
 
 //del many
 
-router.delete("/", authenticate, async (req, res) => {
+router.delete("/", authenticate, async (req, res, next) => {
   try {
     // if (userData) {
     //4. find the transaction with user id and teansaction id from the parameter
@@ -131,21 +133,20 @@ router.delete("/", authenticate, async (req, res) => {
 
     console.log(9000, transactionData);
     if (transactionData) {
-      res.status(201).json({
+      return res.status(201).json({
         status: "success",
         message: "transaction deleted",
         transactionData,
       });
     } else {
-      res.status(401).json({
-        status: "error",
+      next({
+        statusCode: 401,
         message: " error deleting transaction data",
       });
     }
   } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      status: "error",
+    next({
+      statusCode: 500,
       message: error.message,
     });
   }
