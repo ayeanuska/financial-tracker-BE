@@ -9,7 +9,7 @@ import { jwtSign } from "../utils/jwt.js";
 
 const router = express.Router();
 
-router.post("/register", async (req, res) => {
+router.post("/register", async (req, res, next) => {
   try {
     //   const newUser = new User(req.body);
 
@@ -47,7 +47,7 @@ router.post("/register", async (req, res) => {
   }
 });
 
-router.post("/login", async (req, res) => {
+router.post("/login", async (req, res, next) => {
   try {
     const { email, password } = req.body;
 

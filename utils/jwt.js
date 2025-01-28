@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 
-export const jwtSign = async (SignData) => {
-  return jwt.sign(SignData, process.env.JWT_SECRET, {
+export const jwtSign = async (signData) => {
+  return jwt.sign(signData, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIREsIN,
   });
 };
