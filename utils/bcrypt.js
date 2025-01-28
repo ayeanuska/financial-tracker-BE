@@ -10,5 +10,5 @@ export const compareText = async (plaintext, encryptText) => {
   return bcrypt.compare(plaintext, encryptText);
 };
 
-export const calculateAge = (date) => any;
-return age;
+// export const calculateAge = (date) => any;
+// return age;

@@ -22,24 +22,24 @@ export const authenticate = async (req, res, next) => {
         //4. go to next process
         next();
       } else {
-        const errObj = {
-          status: "error",
+        // return res.status(401).send(errObj);
+        next({
+          statusCode: 401,
           message: "Authentication Failed",
-        };
-
-        return res.status(401).send(errObj);
+        });
       }
     } else {
-      res.send(401).json({
-        status: "error",
-        message: "Invalid Token",
+      next({
+        statusCode: 401,
+        message: "Invalid token",
       });
     }
   } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      status: "error",
-      message: error.message,
+    next({
+      statusCode: 500,
+      message: "error",
     });
+
+    next(errObj);
   }
 };

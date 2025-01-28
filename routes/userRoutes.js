@@ -2,9 +2,10 @@ import express from "express";
 
 import { createUser, getUserByEmail } from "../models/user/UserModel.js";
 
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+// import bcrypt from "bcrypt";
+// import jwt from "jsonwebtoken";
 import { compareText, encryptText } from "../utils/bcrypt.js";
+import { jwtSign } from "../utils/jwt.js";
 
 const router = express.Router();
 
@@ -24,7 +25,7 @@ router.post("/register", async (req, res) => {
       password,
     });
 
-    res.status(201).json({
+    return res.status(201).json({
       status: "success",
       message: "user created",
       data,
@@ -33,13 +34,13 @@ router.post("/register", async (req, res) => {
     console.log(error.message);
 
     if (error?.message.includes("E11000")) {
-      res.status(400).json({
-        status: "error",
+      next({
+        statusCode: 400,
         message: "Duplicate userr",
       });
     } else {
-      res.status(500).json({
-        status: "error",
+      next({
+        statusCode: 500,
         message: "Erorr creating user",
       });
     }
@@ -59,32 +60,31 @@ router.post("/login", async (req, res) => {
         email: userData.email,
       };
 
-      const token = await jwt.sign(tokenData, process.env.JWT_SECRET, {
+      const token = await jwtSign(tokenData, process.env.JWT_SECRET, {
         expiresIn: "1d",
       });
 
       if (loginSuccess) {
-        res.status(200).json({
+        return res.status(200).json({
           status: "success",
           message: " Login succesfull",
           accessToken: token,
         });
       } else {
-        res.status(403).json({
-          status: "error",
-          message: "credidentials not found",
+        next({
+          statusCode: 403,
+          message: "User not found",
         });
       }
     } else {
-      res.status(404).json({
-        status: "error",
+      next({
+        statusCode: 404,
         message: "User not found",
       });
     }
   } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      status: "error",
+    next({
+      statusCode: 500,
       message: "login error",
     });
   }

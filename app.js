@@ -16,6 +16,7 @@ import {
 import userRouter from "./routes/userRoutes.js";
 
 import transRouter from "./routes/transactionRoutes.js";
+import { errorHandler } from "./middlewares/errorHandler.js";
 
 //connect to mongoosedb
 connectMongoDB();
@@ -39,6 +40,10 @@ app.use("/api/v1/users", userRouter);
 //transaction router
 app.use("/api/v1/transactions", transRouter);
 
+//error handler middlewarre
+app.use(errorHandler);
+
+// start server
 app.listen(PORT, (error) => {
   error
     ? console.log(error)
