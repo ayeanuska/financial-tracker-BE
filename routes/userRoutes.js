@@ -6,6 +6,7 @@ import { createUser, getUserByEmail } from "../models/user/UserModel.js";
 // import jwt from "jsonwebtoken";
 import { compareText, encryptText } from "../utils/bcrypt.js";
 import { jwtSign } from "../utils/jwt.js";
+import { authenticate } from "../middlewares/authenticate.js";
 
 const router = express.Router();
 
@@ -69,6 +70,10 @@ router.post("/login", async (req, res, next) => {
           status: "success",
           message: " Login succesfull",
           accessToken: token,
+          user: {
+            _id: userData._id,
+            username: userData.username,
+          },
         });
       } else {
         next({
@@ -89,6 +94,16 @@ router.post("/login", async (req, res, next) => {
       message: "login error",
     });
   }
+});
+
+router.get("/", authenticate, async (req, res) => {
+  req.userData.password = "";
+
+  return res.send({
+    status: "sucess",
+    message: "user found",
+    user: req.userData,
+  });
 });
 
 export default router;

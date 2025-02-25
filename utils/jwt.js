@@ -10,3 +10,5 @@ export const jwtVerify = (token) => {
   console.log(10000, token);
   return jwt.verify(token, process.env.JWT_SECRET);
 };
+
+

@@ -47,6 +47,7 @@ router.post("/", authenticate, async (req, res, next) => {
     //   });
     // }
   } catch (error) {
+    console.log(error);
     next({
       statusCode: 500,
       message: "Cannot create transactions",

@@ -10,9 +10,9 @@ POST {{userEP}}/register
 Content-Type: application/json
 
 {
-    "username":"kiara",
-    "email":"test@gmail.com",
-    "password": "123"
+    "username":"ram",
+    "email":"ram@gmail.com",
+    "password": "1234"
 }
 
 ###
@@ -20,8 +20,8 @@ POST {{userEP}}/login
 Content-Type: application/json
 
 {
-    "email":"test@gmail.com",
-    "password": "123"
+    "email":"ayeanuska@gmail.com",
+    "password": "1234"
 }
 
 
@@ -29,19 +29,19 @@ Content-Type: application/json
 #creating transaction
 POST {{transactionEP}}
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNzM4MDM4MzI2LCJleHAiOjE3MzgxMjQ3MjZ9.lXMuYOtfKStUE-aVupDvLZ8bV4DpSvMTHUmV-X0iM80
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF5ZWFudXNrYUBnbWFpbC5jb20iLCJpYXQiOjE3MzkxNDM5MjUsImV4cCI6MTczOTIzMDMyNX0.n3dVfMYCVaqgfGkivfas4BSW4L_dMdU9iOihheztNH8
 
 {
-    "type": "eee",
+    "type": "Income",
     "amount":100,
-    "date": "10-10-2024",
-    "description": "STOCKS"
+    "date": "10-02-2025",
+    "description": "STACK"
 }
 
 ###
 #get transaction
 GET {{transactionEP}}
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6eeeIkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNzM4MDM5MTk3LCJleHAiOjE3MzgxMjU1OTd9.OWRINHNOfddSUXQ_DZoyukqx3-BaCDTJBVXM7rpyMFUQ
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJhbUBnbWFpbC5jb20iLCJpYXQiOjE3MzkxNDE5MDksImV4cCI6MTczOTIyODMwOX0.ze4YehFSDa30p6VQyNc_WJj6NpZQdBmN7lhOVFn-34g
 
 
 ###delete transcation 
